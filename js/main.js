@@ -1,12 +1,4 @@
-// const response = {
-//     response_code: 0,
-//     results: [
-//         {},
-//         {}
-//     ]
-// }
 
-// let datos = {};
 
 function getQuestions() {
     const questionsQuantity = document.getElementById('questions-number').value
@@ -15,7 +7,30 @@ function getQuestions() {
         .then(data => printCards(data.results))
 }
 
-// console.log(datos);
+function SelectCategory() {
+    fetch(`https://opentdb.com/api_category.php`)
+    .then(response => response.json())
+    .then(data => printSelectCategory(data.trivia_categories))
+}
+
+function printSelectCategory(categorys) {
+
+    const container = document.getElementById('category-number');
+    container.innerHTML = '';
+    categorys.forEach(category => {
+        const list = returnSelectCategory(category);
+        container.innerHTML += list;
+    });
+
+    
+}
+
+function returnSelectCategory(category) {
+    const list = `<option value=${category.id}> ${category.name} </option> `;
+    return list;
+}
+
+
 
 function printCards(questions) {
     const container = document.getElementById('container-cards');
@@ -24,7 +39,6 @@ function printCards(questions) {
         const card = returnCardHTML(question);
         container.innerHTML += card;
     });
-    // poner las preguntas en mi página web
 }
 
 function returnCardHTML(q) {
@@ -60,4 +74,10 @@ function returnAnswersHTML(correct, incorrects) {
 
 
     return correctHTML + incorrectHTML;
+
 }
+
+
+SelectCategory();
+
+window.getQuestions = getQuestions;
